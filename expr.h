@@ -4,8 +4,6 @@
 #include <stddef.h>
 
 #include "ds_status.h"
-#include "queue.h"
-
 typedef enum {
 	EXPR_NUMBER,
 	EXPR_OPERATOR,
@@ -19,9 +17,18 @@ typedef struct {
 	char operator;
 } expr_token;
 
-ds_status expr_check_brackets(const char *text, size_t *error_pos);
-ds_status expr_tokenize(const char *text, queue *tokens, size_t *error_pos);
-ds_status expr_to_postfix(queue *infix, queue *postfix, size_t *error_pos);
-ds_status expr_eval_postfix(queue *postfix, double *result);
+typedef struct ExprQueue ExprQueue;
+
+ExprQueue *expr_queue_create(void);
+void expr_queue_destroy(ExprQueue *queue);
+int expr_queue_is_empty(const ExprQueue *queue);
+size_t expr_queue_size(const ExprQueue *queue);
+DsStatus expr_queue_push(ExprQueue *queue, const expr_token *token);
+DsStatus expr_queue_pop(ExprQueue *queue, expr_token *token);
+
+DsStatus expr_check_brackets(const char *text, size_t *error_pos);
+DsStatus expr_tokenize(const char *text, ExprQueue *tokens, size_t *error_pos);
+DsStatus expr_to_postfix(ExprQueue *infix, ExprQueue *postfix, size_t *error_pos);
+DsStatus expr_eval_postfix(ExprQueue *postfix, double *result);
 
 #endif
