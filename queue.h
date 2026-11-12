@@ -5,7 +5,7 @@
 #include <stddef.h>
 #include "ds_status.h"
 
-/* TAD File FIFO à représentation opaque.
+/* TAD File FIFO à representation opaque.
    Les implémentations circulaire et chaînée sont interchangeables. */
 typedef struct Queue Queue;
 
